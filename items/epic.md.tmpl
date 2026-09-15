@@ -2,7 +2,7 @@
 id: {{ .id }}
 type: epic
 nature: {{ .nature }}
-title: {{ .title }}
+title: {{ .title | quote }}
 status: backlog
 owner: {{ .owner }}
 created: {{ .now }}

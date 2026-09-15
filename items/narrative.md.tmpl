@@ -1,6 +1,6 @@
 ---
 stream: {{ .id }}
-title: {{ .title }}
+title: {{ .title | quote }}
 updated: {{ .now }}
 agent: {{ .agent }}
 session: {{ .session }}

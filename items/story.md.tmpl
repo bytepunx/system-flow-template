@@ -2,7 +2,7 @@
 id: {{ .id }}
 type: story
 nature: {{ .nature }}
-title: {{ .title }}
+title: {{ .title | quote }}
 status: backlog
 parent: {{ .parent }}
 owner: {{ .owner }}
