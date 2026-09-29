@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.24 - 2026-09-29
+
+- S-0149 Provide briefs in cases where large files are part of context (patch).
+
+## 1.0.23 - 2026-09-29
+
+- S-0149 Provide briefs in cases where large files are part of context (patch): CLAUDE.md and session-start.md say a large file a story names only by its path written out is briefed (ADR-0050).
+
+## 1.0.22 - 2026-09-29
+
+- S-0148 Agents flai starts, and any agent with a story, prime with the budgeted pack and fetch what it briefs (patch).
+
 ## 1.0.21 - 2026-09-28
 
 - S-0134 Conventions, design, tech files, and ADRs carry topics on the file and on headings, and flai check keeps them honest (patch).
