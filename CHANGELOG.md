@@ -1,5 +1,54 @@
 # Changelog
 
+## 1.0.48 - 2026-10-05
+
+- S-0249 flai check --strict stops a story's close-out on wip/ findings outside the story (patch).
+- S-0266 The verifier reads a close-out run's exit status without piping it away, and the story agent tells it where the run is expected to stop (patch).
+
+## 1.0.47 - 2026-10-05
+
+- S-0249 flai check --strict stops a story's close-out on wip/ findings outside the story (patch): `scripts/close-out.sh` exports the story as `CLOSE_OUT_STORY`, and `scripts/check.sh` then runs `flai check --strict --story "$CLOSE_OUT_STORY" --record-issues`. A finding outside the story, and every `wip.overlap`, is printed as a note that does not stop the close-out, and each rule's are recorded in one open issue under `design/issues`, opened or bumped, which the close-out's commit step commits. Without `CLOSE_OUT_STORY`, as in CI and `make`, the check is unscoped and every finding counts. `work-management.md`'s close-out rule says the same. The scripts need a flai that has `--story` and `--record-issues`.
+
+## 1.0.46 - 2026-10-04
+
+- S-0210 The planner enriches a story with predicted touches, a forecast, and a cost of delay value (patch).
+
+## 1.0.45 - 2026-10-04
+
+- S-0210 The planner enriches a story with predicted touches, a forecast, and a cost of delay value (patch): `strategic-agents.md`'s section "As the planner" says to predict a story's `touches` from `flai touches suggest`, its goal and criteria, the design it links, and the code layout, keeping every touch it declares; to take its forecast from `flai forecast` and its cost of delay `value` from `flai cod`; to review each figure and adjust it with a stated reason; and to record where each touch came from and why each figure stands under a `### Planning` heading in the story's Notes, which is the planner's to rewrite. `.claude/agents/planner.md`, the planner's definition, says the same. The three commands print and write nothing, and need a flai that has them.
+
+## 1.0.44 - 2026-10-04
+
+- S-0255 The planner drafts a story's tasks into the backlog and revisits the children it already has (patch): `strategic-agents.md` says the planner drafts a story's tasks in layers, each with `## Work`, `## Done when`, a nature, tags, `touches`, and `after`, revisits the open ones, proposes splits, merges, and drops on the plan's thread, never cancels or rewrites a task it did not write without asking, adds a task's topic to the story, and names the items it created and revisited in its summary. `work-management.md` says the planner may draft a story's tasks, and that the agent that pulls the story reviews them before it works them.
+
+## 1.0.43 - 2026-10-04
+
+- S-0209 The planner drafts an epic's stories into the backlog and revisits the children it already has (patch): `strategic-agents.md`'s section "As the planner" says to create each story as a draft (`draft: true`), since flai refuses a planner's story that is not one, and to write every section of the item's template, since flai check refuses a story missing one; to summarise the plan in one thread on the item, naming on an epic the stories, their order, and the assumptions made; for an epic with stories, to enrich each one not done or cancelled again and propose in that thread each story to split, merge, add, or drop, drafting the additions only; and to end with one line naming the stories created and revisited. `.claude/agents/planner.md`, the planner's definition, says the same.
+
+## 1.0.42 - 2026-10-04
+
+- S-0208 The planner is an agent flai serve starts for an epic or a story, behind the plan host action (patch).
+
+## 1.0.41 - 2026-10-04
+
+- S-0208 The planner is an agent flai serve starts for an epic or a story, behind the plan host action (patch): the template ships `.claude/agents/planner.md`, the definition `flai plan` runs the planner's session as, which writes work items and threads through flai only. `.claude/settings.json` keeps its hook on `Bash` and flai's MCP tools and gains a second `PreToolUse` entry that runs `flai guard` before `Edit`, `Write`, and `NotebookEdit` in a planner's session alone (`FLAI_ROLE=plan`), so the guard can refuse the planner a file edit while a story's session runs no hook per edit (ADR-0082, the operator's choice on TH-0096).
+
+## 1.0.40 - 2026-10-03
+
+- S-0206 Planner, orchestrator, and analyzer runs are logged in an activity document, with cost, seconds, and work completed in its front matter (patch): `wip/agents/README.md` names the three activity documents flai writes, and `strategic-agents.md` says `activity_log` takes the kind, the summary, and the items touched, that flai measures the duration and cost, and that a run's final reply summarises what it did after its last reported activity (ADR-0079).
+
+## 1.0.39 - 2026-10-03
+
+- S-0200 An epic follows its stories: to ready and in-progress with the first, to review and done with the last (patch): `git.md`'s release rule says an epic contributes no bump of its own, its stories carry theirs, now that an epic is accepted with its last open story (ADR-0078, the designer's choice on TH-0082).
+
+## 1.0.38 - 2026-10-03
+
+- S-0207 The conventions and prime know the planner, orchestrator, and analyzer as roles (patch): `strategic-agents.md` says what the planner, the orchestrator, and the analyzer do, never do, log, and ask, read by the roles `plan`, `orchestrate`, and `analyze`. The baseline's `roles` name the new roles where they apply, as the designer decided on TH-0081: `work-management.md` adds `plan` and `orchestrate`, `decisions.md` `orchestrate`, `continuous-improvement.md` and `code-quality.md` `analyze`, and `telemetry.md`, read by every agent until now, lists `story`, `explore`, `verify`, and `analyze`.
+
+## 1.0.37 - 2026-10-03
+
+- S-0199 Work items carry planning data: draft, cost of delay inputs and value, and a forecast with who set it (patch): `work-management.md`'s definition of ready says a draft story is finalized before it is ready (ADR-0074).
+
 ## 1.0.36 - 2026-10-03
 
 - S-0243 Review column exceeds its WIP limit while acceptance is batched (patch).
