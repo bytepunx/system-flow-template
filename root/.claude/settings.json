@@ -15,7 +15,27 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ \"$FLAI_ROLE\" = plan ] || exit 0; out=$(flai guard 2>&1); [ $? -eq 2 ] || exit 0; echo \"$out\" >&2; exit 2"
+            "command": "[ \"$FLAI_ROLE\" = plan ] || [ \"$FLAI_ROLE\" = orchestrate ] || exit 0; out=$(flai guard 2>&1); [ $? -eq 2 ] || exit 0; echo \"$out\" >&2; exit 2"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$FLAI_STORY\" ] || exit 0; flai guard >/dev/null 2>&1; exit 0"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$FLAI_STORY\" ] || exit 0; flai guard >/dev/null 2>&1; exit 0"
           }
         ]
       }

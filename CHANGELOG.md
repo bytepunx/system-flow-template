@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.0.57 - 2026-10-06
+
+- S-0285 A story's agent waits for its sub-agents with wait_for_events, which cannot see them finish, so each wait runs to its timeout (patch).
+
+## 1.0.56 - 2026-10-06
+
+- S-0285 A story's agent waits for its sub-agents in the foreground, and flai guard refuses it wait_for_events while one runs (patch): `delegation.md` says to launch each sub-agent in the foreground, a layer's in one message, so that each result comes back as the tool's result however long the sub-agent runs (in Claude Code, the Agent tool's `run_in_background` set to false); never to end the turn while a sub-agent runs in the background, since a headless Claude Code session ends ten minutes after its turn ends, and the sub-agent with it; and never to wait for a sub-agent with `wait_for_events`, which reports work items and threads, not sub-agents, and is for a thread awaiting the designer; `flai guard` refuses it to a story's agent while a sub-agent of its session runs and no thread on the story or one of its tasks is open. `.claude/settings.json` runs `flai guard` on `SubagentStart` and `SubagentStop` in a story's agent's session (`FLAI_STORY` set), silently and never refusing, to record the session's running sub-agents. The commands need a flai that has them.
+
+## 1.0.55 - 2026-10-06
+
+- S-0220 The orchestrator answers threads, or recommends an answer, as its permission allows (patch): `strategic-agents.md`'s section "As the orchestrator" says what it does with the threads awaiting the operator under `answer_threads`, whose value it reads afresh each time. With `off` it leaves them alone. With `recommend` it replies to each with `thread_reply`, `recommendation: true`, and a `source`, the ADR, design section, or convention its answer rests on. With `autonomous` it answers with a `source` when one settles the question, and posts a recommendation instead, escalating to the operator, when none does or the question asks for the operator's judgement: a decision not yet recorded, a change of scope, or money. It never resolves a thread it did not open, answers one it opened, or confirms a recommendation. `.claude/agents/orchestrator.md` says the same. The commands need a flai that has them.
+
+## 1.0.54 - 2026-10-06
+
+- S-0282 Acceptance criteria are ticked through flai once verified (patch): `work-management.md` says to tick each criterion as soon as you have verified it, with `flai criteria tick <story> <n>` or the MCP tool `criteria_tick` and the numbers `flai criteria list` prints, never by editing the item's file, and that the move to `review` warns of an unticked one. `delegation.md` says a task sub-agent names in its final message the criteria its task meets, a verifier says which criteria the diff meets and which it does not, and the story's agent ticks them after its review. The commands need a flai that has them.
+
+## 1.0.53 - 2026-10-06
+
+- S-0219 The orchestrator plans, finalizes, promotes, and orders by its permissions (patch): `strategic-agents.md`'s section "As the orchestrator" says what it does with each. With `plan_backlog_epics` it runs `flai plan --candidates` and starts the planner (`plan`) for each epic listed, one at a time. With `finalize_drafts` it runs `flai promote --drafts`, finalizes a complete draft whose criteria, touches, forecast, and value it judges consistent, and opens one thread on any other saying what is missing or inconsistent. With `promote_to_ready` it moves `flai promote --candidates`'s candidates to `ready` in their order while the ready limit has room, never a draft or a held story. With `order_ready` it runs `flai order --by <policy> --apply` after each change to the ready column, which keeps a story placed by hand within the last day. It logs every action with `activity_log` and the policy figure that justified it, and a refusal from `flai guard` or from flai ends that attempt, which it logs and does not retry until something changes. `.claude/agents/orchestrator.md`, the orchestrator's definition, says the same. The commands need a flai that has them.
+
+## 1.0.52 - 2026-10-05
+
+- S-0218 The orchestrator is an agent flai serve runs for a project behind the orchestrate host action (patch): the template ships `.claude/agents/orchestrator.md`, the definition the orchestrator's session runs as, which acts only within `orchestration.permissions`, takes every order, candidate, and release figure from `order_by_policy`, `promote_candidates`, and `release_evaluate`, logs each decision with `activity_log`, waits on `wait_for_events` between decisions, and writes work items and threads through flai only. `.claude/settings.json`'s `PreToolUse` entry on `Edit`, `Write`, and `NotebookEdit` runs `flai guard` in an orchestrator's session (`FLAI_ROLE=orchestrate`) as well as a planner's, and still exits at once in a story's.
+
 ## 1.0.51 - 2026-10-05
 
 - S-0244 Two in-progress stories whose claims grew to overlap each wait for the other: close-out fails flai check --strict on wip.overlap, and the wait costs a model turn every five minutes (patch).
