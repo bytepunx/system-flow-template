@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.103 - 2026-10-19
+
+- S-0405 With the merge queue on, a story's close-out and flai verify leave the test tiers the manifest marks for the queue to the batch, so a close-out main outruns no longer runs integration and smoke twice (patch).
+
+## 1.0.102 - 2026-10-19
+
+- S-0405 While the merge queue can batch, a story's close-out and flai verify leave the test tiers the manifest marks queue to the batch, which runs them (patch).
+- S-0405 While the merge queue can batch, a story's close-out and flai verify leave the test tiers the manifest marks `queue: true` to the batch, which runs them (patch, ADR-0174): in `work-management.md`, the close-out rule says that while the merge queue can batch for the project, with the `merge-queue` host action on for it, `orchestration.permissions.accept_reviews` on, and acceptance local, `flai verify` lists each such tier as `queued`, left to the merge queue, and the close-out passes without it, and that `flai verify S-nnnn --all` runs it too. `scripts/close-out.sh` says in its header which tiers it leaves to the queue. A tier in `system-flow.yaml`'s `tests` may carry `queue: true`; the template's manifest marks none. The merge queue's batch runs every tier its paths select, those marked `queue` included. It needs a flai that has it, the release that carries S-0405; an older flai ignores the key and runs every tier, and its `flai manifest set tests=<JSON>` refuses a tier that carries it.
+
+## 1.0.101 - 2026-10-19
+
+- S-0399 flai serve builds a batch of the enqueued stories in a worktree of its own, rebased on main in order, and verifies it once with the tiers flai verify runs, behind the merge-queue host action (patch).
+- S-0399 The template's `system-flow.yaml` shows the merge queue's batch size, commented out (patch, ADR-0173): a `merge_queue` block with `batch_max`, the most enqueued stories one batch verifies together, 4 when unset. A value that is not a whole number of one or more stops every command that reads the manifest, naming the key, and `flai manifest set merge_queue.batch_max=N` writes it. The queue runs in `flai serve` with no model, behind the `merge-queue` host action, off by default, while `orchestration.permissions.accept_reviews` is on, and under local acceptance only. `flai queue add`, `remove`, `hold`, and `resume` enqueue a story in review, take it out, and hold and resume the queue. Landing a verified batch is a later story's, so stories are still accepted by hand. The key, the commands, and the host action need a flai that has them, the release that carries S-0399; an older flai ignores the block.
+
 ## 1.0.100 - 2026-10-18
 
 - S-0446 flai check finds `components.examples` outside the story at close-out (patch).
