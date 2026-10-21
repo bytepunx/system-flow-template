@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.107 - 2026-10-21
+
+- S-0464 The merge queue's batch runs smoke with no CLOSE_OUT_STORY, so scripts/check.sh runs an unscoped flai check --strict and fails every batch on findings outside its stories (patch).
+- S-0464 The merge queue's batch scopes `scripts/check.sh` to the stories it verifies, so a finding on main outside every one of them no longer fails it (patch): with `MERGE_QUEUE_STORIES` set, as the merge queue's batch and each bisection step set it to the stories they verify, comma-separated, and `CLOSE_OUT_STORY` unset, `check.sh` runs `flai check --strict --story "$MERGE_QUEUE_STORIES"`, so a finding outside every one of them is a note, and records no issue, since the batch's checkout is never committed. With `CLOSE_OUT_STORY` set it runs as before, and with neither, as in CI and make, every finding counts. `scripts/README.md` says so. It needs a flai that has it, the release that carries S-0464: `flai check --story` with several stories, and the batch's `MERGE_QUEUE_STORIES`; an older flai's batch sets neither variable, and the check is unscoped as before.
+
 ## 1.0.106 - 2026-10-21
 
 - S-0453 A thread awaits an agent only when the agent takes part in it or it is on the agent's own story, so a story's agent no longer counts the threads awaiting the operator as its own (patch).
