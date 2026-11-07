@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 1.1.24 - 2026-11-07
+
+- S-0571 flai serve does not start a defined role that takes items on a schedule entry under each-ready-story, though flai check passes it (patch).
+- S-0555 flai check finds `narrative.missing` outside the story at close-out (patch).
+- S-0558 safety.md says every force push needs confirmation, while git.md exempts flai serve's force-with-lease push of a story's branch (patch).
+- S-0570 A story branch rebased across a release brings back the changelog's old Unreleased heading and the lines the release moved, since union merge keeps both sides (patch).
+- S-0556 flai guard still lists the verify MCP tool among a sub-agent's reads, though it now asks flai serve for a close-out job that commits in the story's worktree (patch).
+- S-0556 A sub-agent can no longer start a close-out that commits (patch): the orchestrator's role file names the MCP tool `verify` in its `tools`, and the rule in `delegation.md` says `flai guard` refuses every sub-agent that tool and `flai verify --job`, rather than leaving it to the prompt. A project whose `orchestrator.md` predates this takes its baseline from `flai upgrade`: until then `flai check` reports `roles.definition` and its orchestrator is refused the tool.
+- S-0571 flai serve starts a role your project defines once for each ready story, in pull order, when a `{schedule: <setting>, when: each-ready-story}` entry comes round, and flai check reports that entry on a role that takes no story (patch). The roles README says so.
+- S-0555 flai check finds `narrative.missing` outside the story at close-out (patch).
+- S-0555 A close-out records no `narrative.missing` outside the story (patch, ADR-0256): the close-out rule in `work-management.md` says that a `narrative.missing` on another story, one in progress or in review with no narrative, is left out of a close-out's check and recorded in no issue, since only that story's agent or the operator clears it, with `flai stream open` on that story, and the main checkout's check still reports it.
+- S-0558 `safety.md` no longer says every force push needs confirmation against `git.md`'s exception (patch): the clause says an agent's force push always needs it, and names `flai serve`'s `--force-with-lease` push of a story's own branch under pull-request acceptance as the one force push that needs none, linking `git.md`.
+- S-0570 A story's changelog lines stay under `## Unreleased` across a release (patch, ADR-0257): the `CHANGELOG.md` rule in `git.md` says that after each clean rebase `flai stream sync`, `flai accept`, and the merge queue's batch write the changelog as the main branch has it with the branch's own lines under its top `## Unreleased`, so a story never puts them back by hand or changes a released line.
+
 ## 1.1.23 - 2026-11-07
 
 - S-0545 flai serve wakes a story's agent that is paused on a thread for every task-done message from another story, each needing only a settled reply (patch).
