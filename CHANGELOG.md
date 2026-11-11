@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 1.1.34 - 2026-11-11
+
+- S-0674 Declared touches match what a story changes in 16 percent of completed stories, so claims mislead the pull hold, the trial merge, and the conversations (patch).
+- S-0692 No analysis.schedule or analysis.formula is set, so the analyzer ran once in thirty days (patch).
+- S-0674 `git.md` and `work-management.md` say `flai task done` narrows the touches too: it removes from the closing task's touches each file the branch does not change, and from the story's when no other open task names it (patch, ADR-0284, I-0286).
+- S-0692 `flai manifest set` and the Analyzer page write `analysis.formula`, and refuse, writing nothing, a formula no file defines or one with an input that has no default, as `flai check`'s `manifest.analysis` reports them (patch, I-0292).
+
 ## 1.1.33 - 2026-11-10
 
 - S-0671 scripts/close-out.sh takes no --fresh, so at a commit the verify record holds a pass for it runs no tier, and a second close-out in another place cannot check the same commit again (patch).
