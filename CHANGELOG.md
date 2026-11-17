@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.1.45 - 2026-11-17
+
+- S-0805 A tier in the manifest belongs to a suite, flai test --suite runs one, and the template's tiers are labelled static, behavior, integration, and smoke (patch).
+- S-0805 The template's manifest labels its test tiers with the suite each belongs to, `static` for `markdown`, `behavior` for `test`, and `integration` and `smoke` for those tiers, which `flai test --suite <name>` runs, and its `tests:` comment says what a suite is; what each command runs is unchanged (patch, ADR-0312).
+
 ## 1.1.44 - 2026-11-16
 
 - S-0798 A close-out asked for a story whose branch is behind main stops at sync without syncing, and the failed report makes a story the merge queue could batch not eligible (patch).
