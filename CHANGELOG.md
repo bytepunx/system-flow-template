@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.1.49 - 2026-11-21
+
+- S-0812 flai test --at ci runs the suites verify_at.ci lists, and the template's and this repository's CI call it (patch).
+- S-0812 The template's CI workflow, `.github/workflows/system-flow-check.yml`, installs flai with `install.sh`, runs `flai check --strict`, then `flai test --at ci`, the suites the workflow file's `verify_at` names for ci, in place of its markdownlint step and its `go install` (patch, ADR-0312).
+
 ## 1.1.48 - 2026-11-21
 
 - S-0810 flai serve runs a state's suites and the cluster's deploy and checks as a job when a story enters it, skips the cluster's steps where none is configured, and sends the story back when a step fails (patch).
